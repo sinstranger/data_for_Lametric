@@ -6,7 +6,6 @@ from puller import FramesCatalog
 frames_catalog = FramesCatalog()
 
 
-
 def my_app(environ, start_response):
     status = '200 OK'
     headers = [('Content-type', 'application/json; charset=utf-8')]
