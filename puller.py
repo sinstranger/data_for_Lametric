@@ -1,6 +1,5 @@
 import requests
 import json
-from time import strptime
 from datetime import datetime
 
 import settings
