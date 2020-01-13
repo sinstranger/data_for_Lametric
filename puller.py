@@ -60,7 +60,7 @@ class FinologBiz(BaseFinologBiz):
         return result
 
     def get_income_chart_frame(self):
-        """ {"chartData": [1, 10, 15, 20, 6, 9, 11, 16, 22, 24]} """
+        """ Example {"chartData": [1, 10, 15, 20, 6, 9, 11, 16, 22, 24]} """
         chartData = []
         values = self._get_income_transactions_sum_by_month_in_current_year()
         for month in self.MONTHS_NUMBERS:
