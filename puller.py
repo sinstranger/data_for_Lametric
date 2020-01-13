@@ -18,11 +18,32 @@ class BaseFinologBiz:
     def __repr__(self):
         return self.__str__()
 
-    def get_account_API_url(self) -> str:
-        return '{}{}/account'.format(self.FINOLOG_API_BIZ_URL, self.biz_id)
+    def get_biz_accounts_API_url(self) -> str:
+        """ Return link https://api.finolog.ru/v1/biz/{biz_id}/account """
+        return f'{self.FINOLOG_API_BIZ_URL}{self.biz_id}/account'
 
-    def get_account_response(self):
-        return requests.get(self.get_account_API_url(), headers={'Api-Token': settings.FINOLOG_API_KEY})
+    def get_biz_transactions_API_url(self) ->:
+        """ Return link https://api.finolog.ru/v1/biz/{biz_id}/tramsaction """
+        return f'{self.FINOLOG_API_BIZ_URL}{self.biz_id}/transaction'
+
+    def get_accounts_response(self):
+        return requests.get(self.get_biz_accounts_API_url(), headers={'Api-Token': settings.FINOLOG_API_KEY})
+
+    def get_transactions_response(self):
+        return requests.get(self.get_biz_transactions_API_url(), headers={'Api-Token': settings.FINOLOG_API_KEY})
+
+
+class FinologBiz:
+
+    """
+    Class represents finolog.ru business instance.
+    Methods of class allow to build lametric frames form finilof API's requests.
+
+    Frames for each business:
+    1. Summary - sum from all accounts of biz;
+    2. Income goal - goal frames with income's sum on current year;
+    3. Income chart - chart frame with income by months.
+    """
 
     def get_account_summary(self):
         summary = 0
@@ -42,7 +63,7 @@ class BaseFinologBiz:
 
 class FramesCatalog:
 
-    biz_bunch = [BaseFinologBiz(**kwargs) for kwargs in settings.FINOLOG_BIZ_SETTINGS]
+    biz_bunch = [FinologBiz(**kwargs) for kwargs in settings.FINOLOG_BIZ_SETTINGS]
 
     def get_frames_data(self):
         frames = [biz.get_lametric_frame() for biz in self.biz_bunch]
