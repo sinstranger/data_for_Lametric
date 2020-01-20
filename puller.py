@@ -92,9 +92,13 @@ class FinologBiz(BaseFinologBiz):
             transactions_by_month[n] = 0
         current_year = datetime.today().year
 
-        for transaction in self.get_transactions_response().json():
+        get_params = dict(status='regular', category_type='in')
+        if hasattr(self, 'category_ids'):
+            get_params['category_ids'] = self.category_ids
+
+        for transaction in self.get_transactions_response(**get_params).json():
             value, date = transaction['value'], datetime.strptime(transaction['date'], '%Y-%m-%d %H:%M:%S')
-            if date.year == current_year and value > 0:
+            if date.year == current_year:
                 transactions_by_month[date.month] += value
         return transactions_by_month
 
