@@ -21,6 +21,8 @@ class BaseFinologBiz:
 
     def get_biz_accounts_API_url(self) -> str:
         """ Return link https://api.finolog.ru/v1/biz/{biz_id}/account """
+        if hasattr(self, 'account_ids'):
+            return '{}{}/account/{}'.format(self.FINOLOG_API_BIZ_URL, self.biz_id, self.account_ids)
         return '{}{}/account'.format(self.FINOLOG_API_BIZ_URL, self.biz_id)
 
     def get_biz_transactions_API_url(self) -> str:
@@ -72,6 +74,10 @@ class FinologBiz(BaseFinologBiz):
         return self.get_summary_frame(), self.get_income_goal_frame(), self.get_income_chart_frame(),
 
     def _get_account_summary(self) -> int:  # in thousands
+
+        if hasattr(self, 'account_ids'):
+            return self.get_accounts_response().json()['summary'][0]['balance'] / 1000
+
         summary = 0
         for account in self.get_accounts_response().json():
             try:
