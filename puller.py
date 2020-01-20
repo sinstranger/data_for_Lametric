@@ -50,12 +50,12 @@ class FinologBiz(BaseFinologBiz):
 
     def get_summary_frame(self):
         """ Example {"icon": "794", "text": "Hello!"} """
-        text = '{}{}'.format(self._get_account_summary(), self.unit)
+        text = '{}{}'.format(round(self._get_account_summary()), self.unit)
         return dict(icon=self.icon, text=text, duration=self.duration)
 
     def get_income_goal_frame(self):
         """ Example  {"icon": "22835", "goalData": {"start": 0, "current": 6000, "end": 10000, "unit": "MI"}} """
-        current = self._get_income_transactions_sum_in_current_year()
+        current = round(self._get_income_transactions_sum_in_current_year())
         result = {"icon": self.icon, "duration": self.duration, "goalData": {
             "start": self.goal_start, "current": current, "end": self.goal_end, "unit": self.unit}}
         return result
@@ -65,7 +65,7 @@ class FinologBiz(BaseFinologBiz):
         chartData = []
         values = self._get_income_transactions_sum_by_month_in_current_year()
         for month in self.MONTHS_NUMBERS:
-            chartData.append(values[month])
+            chartData.append(round(values[month]))
         return {'chartData': chartData}
 
     def get_lametric_frames(self):
@@ -78,13 +78,13 @@ class FinologBiz(BaseFinologBiz):
                 summary += account['summary'][0]['balance']
             except IndexError:
                 pass
-        return int(summary / 1000)
+        return summary / 1000
 
     def _get_income_transactions_sum_in_current_year(self) -> int:  # in thousands
         summ = 0
         for value in self._get_income_transactions_sum_by_month_in_current_year().values():
             summ += value
-        return int(summ / 1000)
+        return summ / 1000
 
     def _get_income_transactions_sum_by_month_in_current_year(self) -> dict:
         transactions_by_month = {}
@@ -101,7 +101,7 @@ class FinologBiz(BaseFinologBiz):
         for transaction in self.get_transactions_response(**get_params).json():
             value, date = transaction['value'], datetime.strptime(transaction['date'], '%Y-%m-%d %H:%M:%S')
             if date.year == current_year:
-                transactions_by_month[date.month] += int(value)
+                transactions_by_month[date.month] += value
         return transactions_by_month
 
 

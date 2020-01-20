@@ -19,10 +19,10 @@ else:
 
         # Beer
         {
-            'biz_id': 24480, 'icon': 33859, 'goal_start': 0, 'goal_end': 3500, 'unit': 'k', 'duration': 50,
+            'biz_id': 24480, 'icon': 18348, 'goal_start': 0, 'goal_end': 3500, 'unit': 'k', 'duration': 50,
             'account_ids': 77964},
 
         # Develop
         {
-            'biz_id': 25467, 'icon': 18348, 'goal_start': 0, 'goal_end': 26000, 'unit': 'k', 'duration': 50,
+            'biz_id': 25467, 'icon': 33859, 'goal_start': 0, 'goal_end': 26000, 'unit': 'k', 'duration': 50,
             'category_ids': 320912}]
