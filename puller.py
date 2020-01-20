@@ -30,8 +30,9 @@ class BaseFinologBiz:
     def get_accounts_response(self):
         return requests.get(self.get_biz_accounts_API_url(), headers={'Api-Token': settings.FINOLOG_API_KEY})
 
-    def get_transactions_response(self):
-        return requests.get(self.get_biz_transactions_API_url(), headers={'Api-Token': settings.FINOLOG_API_KEY})
+    def get_transactions_response(self, **kwargs):
+        return requests.get(
+            self.get_biz_transactions_API_url(), headers={'Api-Token': settings.FINOLOG_API_KEY}, params=kwargs)
 
 
 class FinologBiz(BaseFinologBiz):
@@ -49,7 +50,7 @@ class FinologBiz(BaseFinologBiz):
 
     def get_summary_frame(self):
         """ Example {"icon": "794", "text": "Hello!"} """
-        text = '{} K'.format(self._get_account_summary())
+        text = '{}{}'.format(self._get_account_summary(), self.unit)
         return dict(icon=self.icon, text=text, duration=self.duration)
 
     def get_income_goal_frame(self):
