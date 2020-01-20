@@ -95,11 +95,13 @@ class FinologBiz(BaseFinologBiz):
         get_params = dict(status='regular', category_type='in')
         if hasattr(self, 'category_ids'):
             get_params['category_ids'] = self.category_ids
+        if hasattr(self, 'account_ids'):
+            get_params['account_ids'] = self.account_ids
 
         for transaction in self.get_transactions_response(**get_params).json():
             value, date = transaction['value'], datetime.strptime(transaction['date'], '%Y-%m-%d %H:%M:%S')
             if date.year == current_year:
-                transactions_by_month[date.month] += value
+                transactions_by_month[date.month] += int(value)
         return transactions_by_month
 
 
