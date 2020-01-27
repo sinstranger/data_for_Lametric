@@ -19,7 +19,7 @@ else:
 
         # Develop
         {
-            'biz_id': 34346, 'icon': 33859, 'goal_start': 0, 'goal_end': 26000, 'unit': 'k', 'duration': 50,
+            'biz_id': 25467, 'icon': 34346, 'goal_start': 0, 'goal_end': 26000, 'unit': 'k', 'duration': 50,
             'category_ids': 320912},
 
         # Beer
