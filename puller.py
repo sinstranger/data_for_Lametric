@@ -1,6 +1,7 @@
 import requests
 import json
 from datetime import datetime
+from functools import lru_cache
 
 import settings
 
@@ -10,8 +11,7 @@ class BaseFinologBiz:
     FINOLOG_API_BIZ_URL = 'https://api.finolog.ru/v1/biz/'
 
     def __init__(self, **kwargs):
-        for kwarg in kwargs.keys():
-            self.__setattr__(kwarg, kwargs[kwarg])
+        self.__dict__.update(kwargs)
 
     def __str__(self):
         return 'Finolog biz object with id {}'.format(self.biz_id)
@@ -48,6 +48,7 @@ class FinologBiz(BaseFinologBiz):
     2. Income goal - goal frames with income's sum on current year;
     3. Income chart - chart frame with income by months.
     """
+
     MONTHS_NUMBERS = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
 
     def get_summary_frame(self):
@@ -74,16 +75,10 @@ class FinologBiz(BaseFinologBiz):
         return self.get_summary_frame(), self.get_income_goal_frame(), self.get_income_chart_frame(),
 
     def _get_account_summary(self) -> int:  # in thousands
-
+        response = self.get_accounts_response().json()
         if hasattr(self, 'account_ids'):
-            return self.get_accounts_response().json()['summary'][0]['balance'] / 1000
-
-        summary = 0
-        for account in self.get_accounts_response().json():
-            try:
-                summary += account['summary'][0]['balance']
-            except IndexError:
-                pass
+            return response['summary'][0]['balance'] / 1000
+        summary = sum(map(lambda x: x['summary'][0]['balance'], filter(lambda x: x['summary'], response)))
         return summary / 1000
 
     def _get_income_transactions_sum_in_current_year(self) -> int:  # in thousands

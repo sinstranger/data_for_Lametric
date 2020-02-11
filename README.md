@@ -11,11 +11,11 @@ sudo docker build -t lametric:v1 .
 
 ``` 
 docker build \
---build-arg api_key="dkv6uaV7ON2fEThB18318e4d73b5a02e35a526cc0fa39defnzLed5sqZyV775ua" \
+--build-arg api_key="<finolog_API_key>" \
  -t lametric:v1 . 
 ```
 
-##### How to run and daemonize container with TCP port 8123 
+##### How to run and daemonize container with outer TCP port 8123 
 
 ```
 sudo docker run -d -p 8123:8088 lametric:v1
