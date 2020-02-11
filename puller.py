@@ -107,6 +107,7 @@ class FramesCatalog:
     biz_bunch = [FinologBiz(**kwargs) for kwargs in settings.FINOLOG_BIZ_SETTINGS]
 
     def get_frames_data(self):
+        #  unpack nested lists:
         frames = [frame for sublist in [biz.get_lametric_frames() for biz in self.biz_bunch] for frame in sublist]
         return dict(frames=frames)
 
