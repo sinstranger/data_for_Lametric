@@ -82,15 +82,11 @@ class FinologBiz(BaseFinologBiz):
         return summary / 1000
 
     def _get_income_transactions_sum_in_current_year(self) -> int:  # in thousands
-        summ = 0
-        for value in self._get_income_transactions_sum_by_month_in_current_year().values():
-            summ += value
-        return summ / 1000
+        return sum(self._get_income_transactions_sum_by_month_in_current_year().values()) / 1000
 
+    @lru_cache()
     def _get_income_transactions_sum_by_month_in_current_year(self) -> dict:
-        transactions_by_month = {}
-        for n in self.MONTHS_NUMBERS:
-            transactions_by_month[n] = 0
+        transactions_by_month = {month: 0 for month in self.MONTHS_NUMBERS}
         current_year = datetime.today().year
 
         get_params = dict(status='regular', category_type='in')
