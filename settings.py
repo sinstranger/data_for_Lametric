@@ -16,4 +16,4 @@ FINOLOG_BIZ_SETTINGS = [
     # Beer
     {
         'biz_id': 24480, 'icon': 18348, 'goal_start': 0, 'goal_end': 3500, 'unit': 'k', 'duration': 50,
-        'account_ids': 77964}]
+        'account_ids': 77964, 'category_ids': 355788}]
